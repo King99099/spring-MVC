@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/testRequestBodyForGet}">测试通过@RequestBody获取请求体</a>
+<form th:action="@{/testRequestBodyForPost}" method="post">
+    username:<input type="text" name="username"><br>
+    password:<input type="text" name="password"><br>
+    <input type="submit" value="测试通过@RequestBody获取请求体">
+</form>
+<a th:href="@{/testRequestEntityForGet(username='admin')}">测试通过RequestEntity获取请求报文</a>
+<form th:action="@{/testRequestEntityForPost}" method="post">
+    username:<input type="text" name="username"><br>
+    password:<input type="text" name="password"><br>
+    <input type="submit" value="测试通过RequestEntity获取请求报文">
+</form>
+
+<a th:href="@{/testResponseBody}" >测试通过@RequestBody作为响应报文的响应体响应到浏览器</a><br>
+<a th:href="@{/testResponseEmployee}" >测试通过@RequestBody响应对象到浏览器</a><br>
+<div id="app">
+<a th:href="@{/testAjax}" @click="testAjax">测试ajax请求</a>
+</div>
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/axios.min.js}"></script>
+<script type="text/javascript">
+    var vue = new Vue({
+        el:"#app",
+        methods:{
+            testAjax:function (event) {
+                axios({
+                    method:"post",
+                    url:event.target.href,
+                    params:{
+                        username:"admin",
+                        password:"123456"
+                    }
+                }).then(function (response) {
+                    alert(response.data);
+                });
+                event.preventDefault();
+            }
+        }
+    });
+</script>
+</body>
+</html>
